@@ -1,0 +1,72 @@
+// Description: Pathway project, bspline, forward transformation
+
+(Registration "MultiResolutionRegistration")
+
+// *********** Multi-resolution transformation
+
+(Transform "BSplineTransform")
+(NumberOfResolutions 5)
+(FinalGridSpacingInVoxels 16 16 16)
+(GridSpacingSchedule 12.0 12.0 8.0 8.0 8.0 4.0 4.0 4.0 2.0 2.0 2.0 2.0 1.0 1.0 1.0)
+
+// *********** Metric
+
+(Metric "AdvancedMattesMutualInformation" )
+(NumberOfHistogramBins 32)
+
+// *********** Optimization
+
+(Optimizer "AdaptiveStochasticGradientDescent")
+(ASGDParameterEstimationMethod "DisplacementDistribution")
+(MaximumNumberOfIterations 2000)
+(ImageSampler "RandomCoordinate" )
+(NewSamplesEveryIteration "true")
+(NumberOfSpatialSamples 1000)
+
+// *********** Interpolation
+
+(Interpolator "BSplineInterpolator" )
+(ResampleInterpolator "FinalBSplineInterpolator")
+(FinalBSplineInterpolationOrder 3)
+(BSplineInterpolationOrder 3)
+(Resampler "DefaultResampler")
+(CheckNumberOfSamples "false")
+
+// ********* Automatic parameter initialization
+
+(AutomaticScalesEstimation "true")
+(AutomaticTransformInitialization "true")
+(AutomaticTransformInitializationMethod "CenterOfGravity")
+
+// ********** Multi-resolution image (smoothing, no down-sampling since we are using random sampler)
+
+(FixedImagePyramid "FixedSmoothingImagePyramid" )
+(MovingImagePyramid "MovingSmoothingImagePyramid" )
+(ImagePyramidSchedule 16 16 8 8 8 4 4 4 2 2 2 1 1 1 1)
+
+// ********* No mask
+
+(ErodeMask "false")
+
+// ********* ImageTypes
+
+(FixedInternalImagePixelType "float")
+(MovingInternalImagePixelType "float")
+(ResultImageFormat "tif")
+
+// ********* Writing options
+
+(WriteTransformParametersEachIteration "false")
+(WriteTransformParametersEachResolution "false")
+(WriteResultImageAfterEachResolution "false")
+(WritePyramidImagesAfterEachResolution "false")
+(WriteResultImage "true")
+
+// ********* Misc.
+
+(UseDirectionCosines "false")
+(AutomaticParameterEstimation "true")
+(ShowExactMetricValue "false")
+(DefaultPixelValue 0)
+(ResultImagePixelType "unsigned short")
+(HowToCombineTransforms "Compose")

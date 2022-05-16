@@ -1,0 +1,72 @@
+// Description: Pathway project, bspline, inverse transformation
+
+(Registration "MultiResolutionRegistration")
+
+// *********** Multi-resolution transformation
+
+(Transform "BSplineTransform")
+(NumberOfResolutions 2)
+(FinalGridSpacingInVoxels 4 4 4)
+(GridSpacingSchedule 2 2 1 1 1 1)
+
+// *********** Metric
+
+(Metric "DisplacementMagnitudePenalty" )
+(NumberOfHistogramBins 32)
+
+// *********** Optimization
+
+(Optimizer "AdaptiveStochasticGradientDescent")
+(ASGDParameterEstimationMethod "DisplacementDistribution")
+(MaximumNumberOfIterations 500)
+(ImageSampler "RandomCoordinate" )
+(NewSamplesEveryIteration "true")
+(NumberOfSpatialSamples 1000)
+
+// *********** Interpolation
+
+(Interpolator "BSplineInterpolator" )
+(ResampleInterpolator "FinalBSplineInterpolator")
+(FinalBSplineInterpolationOrder 3)
+(BSplineInterpolationOrder 3)
+(Resampler "DefaultResampler")
+(CheckNumberOfSamples "false")
+
+// ********* Automatic parameter initialization
+
+(AutomaticScalesEstimation "true")
+(AutomaticTransformInitialization "true")
+(AutomaticTransformInitializationMethod "CenterOfGravity")
+
+// ********** Multi-resolution image (smoothing, no down-sampling since we are using random sampler)
+
+(FixedImagePyramid "FixedSmoothingImagePyramid" )
+(MovingImagePyramid "MovingSmoothingImagePyramid" )
+(ImagePyramidSchedule 2 2 1 1 1 1 )
+
+// ********* No mask
+
+(ErodeMask "false")
+
+// ********* ImageTypes
+
+(FixedInternalImagePixelType "float")
+(MovingInternalImagePixelType "float")
+(ResultImageFormat "tif")
+
+// ********* Writing options
+
+(WriteTransformParametersEachIteration "false")
+(WriteTransformParametersEachResolution "false")
+(WriteResultImageAfterEachResolution "false")
+(WritePyramidImagesAfterEachResolution "false")
+(WriteResultImage "true")
+
+// ********* Misc.
+
+(UseDirectionCosines "false")
+(AutomaticParameterEstimation "true")
+(ShowExactMetricValue "false")
+(DefaultPixelValue 0)
+(ResultImagePixelType "unsigned short")
+(HowToCombineTransforms "Compose")
