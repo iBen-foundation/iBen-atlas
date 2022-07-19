@@ -1,7 +1,7 @@
 # iBen-atlas
 > A cholinergic and catecholaminergic 3D Atlas of the developing mouse brain
 
-<img src="https://babiomedical.sharepoint.com/:i:/s/atlasportal/EW6V2LKHz6tKo93I0JOpGc0BHGZZvCMgCWrK9d0OKWeSww" width="50%" height="50%">
+<img src="https://github.com/iBen-foundation/iBen-atlas/blob/main/src/iBen-atlas.png" width="50%" height="50%">
 
 [Link to the atlas files](http://www.babiomedical.com/ressources/)
 
