@@ -32,16 +32,16 @@ from registration_utils import create_output_directories_bspline_registration
 res = 6
 
 ## Iteration counter
-iter_index = 0
+iter_index = 1
 
 ## Previous registration step
 previous_registration_step = 'bspline'  # possible values: 'global', 'bspline'
 
 ## Previos pixel resolution
 if previous_registration_step == 'bspline':
-    previos_pixel_resolution = 15
+    previous_pixel_resolution = 15
 else:
-    previos_pixel_resolution = 'Native'
+    previous_pixel_resolution = 'Native'
 
 
 ###############################################################################
@@ -55,13 +55,13 @@ data_dir, output_dir, global_registration_dir, res_output_dir = get_io_directori
 
 ## Collect input fixed and moving image file paths
 if iter_index==0:
-        last_template_file_path = retrieve_last_template(previous_registration_step,
-                                                         previos_pixel_resolution,
-                                                         res,
-                                                         output_dir)
-        ## collect registered downsampled images from the global registration step
-        subject_names_list, subject_file_pathes_list = collect_input_files(
-                                                  global_registration_dir, res)
+    last_template_file_path = retrieve_last_template(previous_registration_step,
+                                                     previous_pixel_resolution,
+                                                     res,
+                                                     output_dir)
+    ## collect registered downsampled images from the global registration step
+    subject_names_list, subject_file_pathes_list = collect_input_files(
+                                              global_registration_dir, res)
 else:
     file_path_to_load = os.path.join(res_output_dir, 'files_path.pkl')
     with open(file_path_to_load, 'rb') as f:
@@ -84,9 +84,11 @@ subject_output_directories, average_output_dir, template_output_dir,\
                                                        iter_index,
                                                        subject_names_list)
 
-## Create MMADF file
+## Create/get MMADF file
 if iter_index==0:
     MMADF_file_path = create_MMADF_file(res_output_dir, "MMADF.txt")
+else:
+    MMADF_file_path = os.path.join(res_output_dir, "MMADF.txt")
 
 
 ###############################################################################
@@ -138,6 +140,7 @@ with tifffile.TiffWriter(average_image_output_path) as tif:
         tif.save(frame, contiguous=True)
 
 print("\n\nChange the voxel unit of the average image to pixel in Fiji.")
+print("\nThe average image is found in: \n\t" + average_image_output_path)
 a = input("\nThen, press any key to continue ... ")
 
 
@@ -182,6 +185,7 @@ new_template_file_path = os.path.join(template_output_dir, 'result.tif')
 threshold_image(new_template_file_path, threshold=60000)
 
 print("\n\nChange the voxel unit of the created template image to pixel in Fiji.")
+print("\nThe created template image is found in: \n\t" + new_template_file_path)
 a = input("\nThen, press any key to continue ... ")
 
 
@@ -199,12 +203,26 @@ with open(file_path, 'wb') as f:
 ###############################################################################
 
 """
+To proceed with more iterations, increase the value of iter_index variable by 1,
+and rerun the code.
+"""
+
+###############################################################################
+
+"""
 Postprocessing steps in Fiji:
+    After all iterations for the current resolution v1, before going to a 
+    higher resolution v2:
         
     A) Template upsampling in Fiji (Image -> Scale...):
-    
-       After all iterations for the current resolution v1, before going to a 
-       higher resolution v2, upsample the last created template
-       (created_template/result.tif) and save it as result-res{v2}um.tif in
+       Upsample the last created template (created_template/result.tif)
+       to the resolution v2 and save it as result-res{v2}um.tif in 
        the same directory.
+    
+    B) Change the values of the following variables on top of the code and 
+       rerun the code:
+           res = v2
+           iter_index = 0
+           previous_registration_step = 'bspline'
+           previos_pixel_resolution = v1
 """
