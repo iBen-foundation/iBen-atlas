@@ -28,10 +28,10 @@ from registration_utils import create_output_directories_stained_image_registrat
 res = 6
 
 ## Final iteration number of bspline registration of AF channel
-final_iter_index = 0 
+final_iter_index = 1
 
-## staining e.g. 'ChAT', 'TH'
-staining = 'ChAT'
+## Name of directory where stained images are found e.g. 'ChAT', or 'TH'
+staining = 'TH'
 
 
 ###############################################################################
