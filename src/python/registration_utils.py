@@ -9,6 +9,8 @@ import numpy as np
 import SimpleITK as sitk
 from shutil import rmtree
 import pickle
+from tqdm import tqdm
+from glob import glob
 
 
 ###############################################################################
@@ -62,9 +64,13 @@ def retrieve_last_template(previous_registration_step,
                                                         "bspline_registration",
                                                         f"resolution_{previos_pixel_resolution}um"
                                                         )
-        file_path_to_load = os.path.join(previous_registration_output_dir, 'files_path.pkl')
-        with open(file_path_to_load, 'rb') as f:
-            _, __, last_template_file_path = pickle.load(f)
+        iter_dirs = glob(os.path.join(previous_registration_output_dir, 'iter_*'))
+        iter_dirs.sort()
+        last_iteration_dir = iter_dirs[-1]
+        last_template_file_path = os.path.join(last_iteration_dir, 
+                                               "collective_outputs", 
+                                               "created_template", 
+                                               "result.tif")
         
         ## modify the template file name to return the upsampled template
         file_path, file_ext = os.path.splitext(last_template_file_path)
@@ -557,7 +563,7 @@ def compute_average_image(image_directories):
     img = tifffile.imread(img_path)
     sum_img_array = np.zeros(img.shape)
     
-    for image_dir in image_directories:
+    for image_dir in tqdm(image_directories):
         img_path = os.path.join(image_dir, 'result.0.tif')
         sum_img_array += tifffile.imread(img_path)
         
@@ -586,7 +592,7 @@ def compute_average_stained_image(image_directories):
     img = tifffile.imread(img_path)
     sum_img_array = np.zeros(img.shape)
     
-    for image_dir in image_directories:
+    for image_dir in tqdm(image_directories):
         img_path = os.path.join(image_dir, 'result.tif')
         sum_img_array += tifffile.imread(img_path)
         
@@ -715,4 +721,3 @@ def compute_the_inverse_average_transformation(fixed_image_path,
     sitk.WriteParameterFile(inverse_tranformParameters, inverse_tranformParameters_file_path)
     
     return inverse_tranformParameters_file_path
-
