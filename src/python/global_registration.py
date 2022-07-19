@@ -104,20 +104,21 @@ A) Image downsampling in Fiji (Image -> Scale...):
             
      1) Downsample each registered image (affine/result.0.tif) to v1 and v2 um
         pixel resolution and save it as result.0-res{v1}um.tif,
-        result.0-res{v2}um.tif and result.0-res{v3}um.tif 
-        in the same directory.
+        result.0-res{v2}um.tif in the same directory.
+
+     2) Rename result.0.tif to result.0-res{v3}um.tif.
              
-     2) Downsample the created template (template/T0.tif) to v1 um pixel 
-        resolution and save it as T0-res{v1}.tif in the same directory.
+     3) Downsample the created template (template/T0.tif) to v1 um pixel 
+        resolution and save it as T0-res{v1}um.tif in the same directory.
 
 
-B) Change image pixel unit in Fiji (Image > Properties...):
+B) Change image pixel unit from inch to pixel in Fiji (Image > Properties...):
     
     1) Change the pixel unit of each registered image 
        (affine/result.0-res{v1}um.tif and affine/result.0-res{v2}um.tif)
        and the created template (template/T0-res{v1}um.tif) from inch to pixel.
+       put 1 for the Pixel width, Pixel height and Voxel depth.	
 
 """
-
 
 
