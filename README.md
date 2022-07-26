@@ -3,11 +3,25 @@
 
 <img src="https://github.com/iBen-foundation/iBen-atlas/blob/main/src/iBen-atlas.png" width="50%" height="50%">
 
+## Useful links:
+
 [Link to the atlas files](http://www.babiomedical.com/ressources/)
+
+[Link to the paper published in NeuroImage](https://doi.org/10.1016/j.neuroimage.2022.119494)
+
 
 ## Reproducibility:
 
-iBen atlas has been produced by following a multiresolution and iterative registration process of autofluorescence images. Interested users can reproduce it on their own images by following the below instruction. For more details, see the paper published in NeuroImage:
+<figure>
+   
+<figcaption align = "left"><b>The construction process of an average image from autofluorescence raw images of 11 P0 subjects</b></figcaption>
+
+<img src="https://github.com/iBen-foundation/iBen-atlas/blob/main/src/Registration_process.png" width="50%" height="50%" title="Construction    process of an average image">
+
+</figure>
+
+
+iBen atlas has been produced by following a multiresolution and iterative registration process of autofluorescence images. Interested users can reproduce it on their own images by following the below instruction. For more details, see the paper published in [NeuroImage](https://doi.org/10.1016/j.neuroimage.2022.119494):
 
 
 1 - Clone the iBen-atlas repository in a directory, e.g. `~/registration_test`, on your local machine.
